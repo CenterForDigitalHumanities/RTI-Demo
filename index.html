@@ -19,7 +19,7 @@
 </head>
 
 <body>
-	<div>
+	<div style="display: flex; align-items: center; justify-content: center;">
 		<form method=get action="">
 			<button role=submit name=directory value="sample1">Sample 1</button>
 			<button role=submit name=directory value="sample2">Sample 2</button>
@@ -29,28 +29,28 @@
 			<output for=canvas-height></output>
 		</form>
 	</div>
-	<div style=flex>
-	<div id=toolbar style="margin:.5rem;float:left;width:2rem;height:400px;">
-		<button class="toolbarButton" id="zoomIn" touch-action="none">
+	<div style="display: flex; align-items: center; justify-content: center;">
+		<div id=toolbar style="margin:.5rem;float:left;width:2rem;height:400px;">
+			<button class="toolbarButton" id="zoomIn" touch-action="none">
 			<img src="css/icons/zoomin.png" alt="zoom in">
 		</button>
-		<button class="toolbarButton" id="zoomOut" touch-action="none">
+			<button class="toolbarButton" id="zoomOut" touch-action="none">
 			<img src="css/icons/zoomout.png" alt="zoom out">
 		</button>
-		<!-- <button class="toolbarButton" id="light" touch-action="none">
+			<!-- <button class="toolbarButton" id="light" touch-action="none">
 			<img src="css/icons/light.png" alt="light">
 		</button> -->
-		<button class="toolbarButton" id="fullscreen" touch-action="none">
+			<button class="toolbarButton" id="fullscreen" touch-action="none">
 			<img src="css/icons/full.png" alt="fullscreen">
 			</button>
-		<button class="toolbarButton" id="help" touch-action="none">
+			<button class="toolbarButton" id="help" touch-action="none">
 					<img src="css/icons/help.png" alt="help">
 					</button>
-		<button role=button id="flip" onclick="toggleFlip(this);">flip</button>
-	</div>
-	<div id="viewerCont">
+			<button role=button id="flip" onclick="toggleFlip(this);">flip</button>
+		</div>
+		<div id="viewerCont">
 
-	</div>
+		</div>
 	</div>
 	<div id=footer style="position:fixed;bottom:0;left:0;width:100vw;"></div>
 	<script type="text/javascript">
