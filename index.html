@@ -1,38 +1,96 @@
 <html lang="en" xml:lang="en">
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-		<meta name="description" content="WebRTIViewer is a simple viewer for high resolution RTI images" />
-		<meta name="keywords"    content="WebGL, Library, JavaScript, 3D, OpenGL, 2D, Graphics, Rendering, Realtime, Real-time, SpiderGL, VCG, RTI" />
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-		<title>RTI-Viewer</title>
+	<meta name="description" content="WebRTIViewer is a simple viewer for high resolution RTI images" />
+	<meta name="keywords" content="WebGL, Library, JavaScript, 3D, OpenGL, 2D, Graphics, Rendering, Realtime, Real-time, SpiderGL, VCG, RTI"
+	/>
 
-		<link type="text/css" href="css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="Stylesheet">
-		<link type="text/css" href="css/webrtiviewer.css" rel="Stylesheet">
-		<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
-		<script type="text/javascript" src="js/jquery-ui.min.js"></script>
-		<script type="text/javascript" src="js/pep.min.js"></script>
-		
-		<script type="text/javascript" src="spidergl/spidergl.js"></script>
-		<script type="text/javascript" src="spidergl/multires.js"></script>
-	</head>
-	<body>
-<div>
-		<button role=button onclick='launchRTI("sample1")'>Sample 1</button>
-		<button role=button onclick='launchRTI("sample2")'>Sample 2</button>
-		<input id=canvas-width type=range min=90 max=1000 value=900>
-		<input id=canvas-height type=range min=50 max=800 value=600>
+	<title>RTI-Viewer</title>
+
+	<link type="text/css" href="css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="Stylesheet">
+	<link type="text/css" href="css/webrtiviewer.css" rel="Stylesheet">
+	<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/pep.min.js"></script>
+	<script type="text/javascript" src="spidergl/spidergl.js"></script>
+	<script type="text/javascript" src="spidergl/multires.js"></script>
+</head>
+
+<body>
+	<div>
+		<form method=get action="">
+			<button role=submit name=directory value="sample1">Sample 1</button>
+			<button role=submit name=directory value="sample2">Sample 2</button>
+			<input id=canvas-width name=width type=range min=90 max=1000 onchange=this.nextElementSibling.value=this.value>
+			<output for=canvas-width></output>
+			<input id=canvas-height name=height type=range min=50 max=800 onchange=this.nextElementSibling.value=this.value>
+			<output for=canvas-height></output>
+		</form>
 	</div>
-		<div id="viewerCont">
+	<div id=toolbar style="margin:.5rem;float:left;width:2rem;height:400px;">
+		<button class="toolbarButton" id="zoomIn" touch-action="none">
+			<img src="css/icons/zoomin.png" alt="zoom in">
+		</button>
+		<button class="toolbarButton" id="zoomOut" touch-action="none">
+			<img src="css/icons/zoomout.png" alt="zoom out">
+		</button>
+		<!-- <button class="toolbarButton" id="light" touch-action="none">
+			<img src="css/icons/light.png" alt="light">
+		</button> -->
+		<button class="toolbarButton" id="fullscreen" touch-action="none">
+			<img src="css/icons/full.png" alt="fullscreen">
+			</button>
+		<button class="toolbarButton" id="help" touch-action="none">
+					<img src="css/icons/help.png" alt="help">
+					</button>
+		<button role=button id="flip" onclick="toggleFlip(this);">flip</button>
+	</div>
+	<div id="viewerCont">
 
-		</div>
-		<script  type="text/javascript">
-		function launchRTI(dir){
-			let w = parseInt($('#canvas-width').val());
-			let h = parseInt($('#canvas-height').val());
-			createRtiViewer("viewerCont", "rti/"+dir, w, h); 
+	</div>
+	<div id=footer style="position:fixed;bottom:0;left:0;width:100vw;background:black;"></div>
+	<script type="text/javascript">
+		var viewerCont = "viewerCont";
+
+		function launchRTI() {
+			let params = window.location.search;
+			let dindex = params.indexOf("directory=") + 10;
+			let windex = params.indexOf("width=") + 6;
+			let hindex = params.indexOf("height=") + 7;
+			let dir = params.substring(dindex).split("&")[0] || "sample1";
+			let w = params.substring(windex).split("&")[0] || 900;
+			let h = params.substring(hindex).split("&")[0] || 600;
+			$('#canvas-width').val(w).change();
+			$('#canvas-height').val(h).change();
+			var opts = {
+				linkNode: "footer",
+				linkNodeStyle: {},
+				// toolbarNode: "toolbar",
+				// toolbarStyle: {
+				// 	margin: ".5rem",
+				// 	cssFloat: "left",
+				// 	width: "2rem",
+				// 	height: "400px"
+				// }
+				externalToolbar: true
+			}
+			createRtiViewer(viewerCont, "rti/" + dir, w, h, opts);
 		}
-		createRtiViewer("viewerCont", "rti/sample2", 600, 600); 
-		</script>
-	</body>
+		launchRTI();
+
+		function toggleFlip(el) {
+			let isFlipped = el.innerHTML.indexOf('unflip') > -1;
+			if (!isFlipped) {
+				$('#' + viewerCont).css('transform', 'scaleX(-1)');
+				$(el).text('unflip');
+			} else {
+				$('#' + viewerCont).css('transform', '');
+				$(el).text('flip');
+			}
+		}
+	</script>
+</body>
+
 </html>
